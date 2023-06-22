@@ -7,6 +7,7 @@ Markup Emoji Extension for Python-Markdown
 Python-Markdown extension for markup of Emoji in the markdown document.
 """
 import markdown
+import xml.etree.ElementTree as etree
 
 INSIDE_ELEMENTS = (
     'p', 'div', 'span', 'em', 'i', 'strong', 'ins', 'del',
@@ -83,7 +84,7 @@ class MarkupEmojiTreeProcessor(markdown.treeprocessors.Treeprocessor):
             return words
 
         def _et_copy(src):
-            new = markdown.util.etree.Element(src.tag)
+            new = etree.Element(src.tag)
             new.text = src.text
             new.tail = src.tail
             for key, value in src.items():
@@ -91,7 +92,7 @@ class MarkupEmojiTreeProcessor(markdown.treeprocessors.Treeprocessor):
             return new
 
         def _et_emoji(text, tail):
-            new = markdown.util.etree.Element('span')
+            new = etree.Element('span')
             new.text = text
             new.tail = tail
             new.set('class', 'emoji')
